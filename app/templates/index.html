@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CH {{ channel_number }} // {{ channel_name }} - Admin Portal</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+  <style>
+    :root {
+      --bg: #0a0d18;
+      --panel: #12182b;
+      --panel-alt: #0d1222;
+      --border: #4a5d8c;
+      --border-bright: #f2dc42;
+      --text: #eef2ff;
+      --muted: #98a6c8;
+      --accent: #f2dc42;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 20px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Courier New", Courier, Menlo, Monaco, monospace;
+      line-height: 1.4;
+    }
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+    .header-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, #1b2d68, #385094);
+      color: #ffffff;
+      padding: 10px 16px;
+      border: 2px solid var(--border-bright);
+      margin-bottom: 18px;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+    }
+    .header-bar .badge {
+      background: var(--border-bright);
+      color: #0b1024;
+      padding: 4px 10px;
+      margin-right: 10px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .grid-admin {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 980px) {
+      .grid-2, .grid-admin {
+        grid-template-columns: 1fr;
+      }
+    }
+    .box {
+      background: var(--panel);
+      border: 2px solid var(--border);
+      padding: 16px;
+      box-shadow: inset 0 0 0 2px #070a14;
+    }
+    .box-title {
+      background: #1f2c52;
+      border: 1px solid var(--border);
+      color: var(--border-bright);
+      padding: 7px 12px;
+      font-weight: bold;
+      margin: -16px -16px 14px -16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.92rem;
+    }
+    .crt-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #05070e;
+      border: 3px solid var(--border-bright);
+      overflow: hidden;
+    }
+    video, #snapshotPreview {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    #snapshotPreview {
+      display: none;
+    }
+    .controls-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    button, .btn {
+      background: #1d294d;
+      color: var(--text);
+      border: 1px solid var(--border-bright);
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 0.81rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    button:hover:not(:disabled), .btn:hover {
+      background: var(--border-bright);
+      color: #090d1a;
+    }
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    button.active-btn {
+      background: var(--border-bright);
+      color: #090d1a;
+    }
+    input[type="text"], input[type="url"], input[type="number"], select {
+      width: 100%;
+      background: #080b16;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 7px 10px;
+      font-family: inherit;
+      font-size: 0.84rem;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--border-bright);
+    }
+    label {
+      display: block;
+      font-size: 0.74rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr auto;
+      gap: 8px;
+      align-items: end;
+      margin-top: 10px;
+    }
+    @media (max-width: 720px) {
+      .form-grid-3, .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 310px;
+      overflow-y: auto;
+    }
+    .list-card {
+      background: var(--panel-alt);
+      border: 1px solid #32426b;
+      padding: 9px 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .list-card.active-card {
+      border: 1px solid var(--border-bright);
+      background: #17213e;
+    }
+    .list-info {
+      min-width: 0;
+      flex: 1;
+    }
+    .list-title {
+      font-weight: bold;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .list-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      word-break: break-all;
+      margin-top: 2px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 1px 6px;
+      background: var(--border-bright);
+      color: #0b0f1e;
+      font-size: 0.71rem;
+      font-weight: bold;
+    }
+    .pill-blue {
+      background: #287cc8;
+      color: #fff;
+    }
+    .pill-crimson {
+      background: #882636;
+      color: #fff;
+    }
+    .pill-navy {
+      background: #2e4884;
+      color: #fff;
+    }
+    .endpoint-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .endpoint-item {
+      background: var(--panel-alt);
+      border: 1px solid #32426b;
+      padding: 7px 10px;
+    }
+    .endpoint-url {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      word-break: break-all;
+    }
+    .display-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 780px) {
+      .display-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .checks-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #2b395e;
+    }
+    .check-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.81rem;
+      color: var(--text);
+      cursor: pointer;
+    }
+    #toastBanner {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--border-bright);
+      color: #080b18;
+      border: 2px solid #fff;
+      padding: 10px 16px;
+      font-weight: bold;
+      display: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-bar">
+      <div>
+        <span class="badge" id="hdrBadge">CH {{ channel_number }}</span>
+        <span id="hdrTitle">{{ channel_name }} // ROLLING TV GUIDE ADMIN PORTAL</span>
+      </div>
+      <div id="audioStatusHeader">AUDIO: INITIALIZING...</div>
+    </div>
+
+    <!-- Row 1: Live Monitor & Stream Endpoints -->
+    <div class="grid-2">
+      <div class="box">
+        <div class="box-title">
+          <span>[ LIVE PREVUE GUIDE BROADCAST MONITOR ]</span>
+          <span id="streamStateBadge">CONNECTING...</span>
+        </div>
+        <div class="crt-frame">
+          <video id="hlsVideo" controls autoplay muted playsinline poster="/preview.png"></video>
+          <img id="snapshotPreview" src="/preview.png" alt="Live Frame Snapshot" />
+        </div>
+        <div class="controls-row">
+          <button id="btnModeHls" class="active-btn" onclick="startHlsPlayer()">HLS STREAM PLAYER</button>
+          <button id="btnModeSnap" onclick="toggleSnapshotMode()">INSTANT FRAME PREVIEW (/preview.png)</button>
+          <button onclick="triggerRefresh()">REFRESH EPG &amp; FEEDS</button>
+          <a class="btn" href="/hls/stream.m3u8" target="_blank">OPEN .M3U8</a>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="box-title">
+          <span>[ STREAM ENDPOINTS &amp; IPTV LINKS ]</span>
+          <span id="statRows">0 GRID ROWS</span>
+        </div>
+        <div class="endpoint-list">
+          <div class="endpoint-item">
+            <label>HLS Stream (.m3u8)</label>
+            <div class="endpoint-url">
+              <code>{{ hls_url }}</code>
+              <button onclick="copyText('{{ hls_url }}')">COPY</button>
+            </div>
+          </div>
+          <div class="endpoint-item">
+            <label>IPTV / Dispatcharr M3U Playlist</label>
+            <div class="endpoint-url">
+              <code>{{ m3u_url }}</code>
+              <button onclick="copyText('{{ m3u_url }}')">COPY</button>
+            </div>
+          </div>
+          <div class="endpoint-item">
+            <label>XMLTV EPG Guide</label>
+            <div class="endpoint-url">
+              <code>{{ epg_url }}</code>
+              <button onclick="copyText('{{ epg_url }}')">COPY</button>
+            </div>
+          </div>
+          <div class="endpoint-item">
+            <label>Direct MPEG-TS Stream (.ts)</label>
+            <div class="endpoint-url">
+              <code>{{ ts_url }}</code>
+              <button onclick="copyText('{{ ts_url }}')">COPY</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Top-Left Custom Promo/Bulletin Messages & Top-Right Feature Slides -->
+    <div class="grid-admin">
+      <!-- Top-Left Quadrant Custom Messages -->
+      <div class="box">
+        <div class="box-title">
+          <span>[ TOP-LEFT QUADRANT: CUSTOM PROMO &amp; BULLETIN MESSAGES ]</span>
+          <span id="msgCountBadge">0 CARDS</span>
+        </div>
+        <div id="messagesList" class="item-list"></div>
+
+        <form onsubmit="handleAddMessage(event)" style="margin-top: 12px; border-top: 1px solid #2b395e; padding-top: 10px;">
+          <div class="form-grid-3">
+            <div>
+              <label>Line 1: Network / Header</label>
+              <input type="text" id="msgNetwork" placeholder="e.g. Cinemax" maxlength="40" required />
+            </div>
+            <div>
+              <label>Line 2: Title / Message</label>
+              <input type="text" id="msgTitle" placeholder='e.g. "Black Sheep"' maxlength="60" required />
+            </div>
+            <div>
+              <label>Rating Badge (Optional)</label>
+              <input type="text" id="msgRating" placeholder="PG-13, PG, R..." maxlength="10" />
+            </div>
+            <div>
+              <label>Line 3: Day / Air Time</label>
+              <input type="text" id="msgDayTime" placeholder="e.g. Wednesday" maxlength="40" />
+            </div>
+            <div>
+              <label>Line 4: Channel / Callout</label>
+              <input type="text" id="msgChannelInfo" placeholder="e.g. Channel 14" maxlength="40" />
+            </div>
+            <div style="display:flex; align-items:end;">
+              <button type="submit" style="width:100%;">+ ADD TOP-LEFT MESSAGE</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Top-Right Quadrant Feature Slides & In-Grid Rolling Messages -->
+      <div class="box">
+        <div class="box-title">
+          <span>[ TOP-RIGHT WINDOW SLIDES ("REEL TALK") &amp; IN-GRID BANNERS ]</span>
+          <span id="slideCountBadge">0 SLIDES</span>
+        </div>
+        <label>Top-Right Feature Window Slides (Lower-Third Overlay)</label>
+        <div id="slidesList" class="item-list" style="max-height: 150px; margin-bottom: 10px;"></div>
+
+        <form onsubmit="handleAddSlide(event)" style="border-top: 1px solid #2b395e; padding-top: 8px; margin-bottom: 14px;">
+          <div class="form-grid-3">
+            <div>
+              <label>Gold Title (Line 1)</label>
+              <input type="text" id="slideTitle" placeholder="REEL TALK" maxlength="32" required />
+            </div>
+            <div>
+              <label>Subtitle (Line 2)</label>
+              <input type="text" id="slideSubtitle" placeholder="DAVID SPADE" maxlength="36" />
+            </div>
+            <div>
+              <label>Backdrop Theme</label>
+              <select id="slideTheme">
+                <option value="reel_talk">Reel Talk Studio</option>
+                <option value="cinema">Cinema Spotlight</option>
+                <option value="studio">Cable Network ID</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div style="grid-column: span 2;">
+              <label>Optional Custom Image / Webcam URL</label>
+              <input type="url" id="slideImageUrl" placeholder="https://example.com/poster.jpg (leave blank for built-in backdrop)" />
+            </div>
+            <div>
+              <button type="submit">+ ADD SLIDE</button>
+            </div>
+          </div>
+        </form>
+
+        <label>In-Grid Rolling Announcement Banners (Scroll Inside Channel Grid)</label>
+        <div id="gridMessagesList" class="item-list" style="max-height: 120px;"></div>
+        <form onsubmit="handleAddGridMessage(event)" style="margin-top: 8px;">
+          <div class="form-grid-3">
+            <div>
+              <label>Left Callsign Label</label>
+              <input type="text" id="gmsgLabel" placeholder="NOTICE" maxlength="10" required />
+            </div>
+            <div>
+              <label>3D Bar Color</label>
+              <select id="gmsgColor">
+                <option value="sky_blue">Prevue Sky-Blue</option>
+                <option value="crimson">Movie Crimson-Red</option>
+                <option value="navy">Standard Slate-Navy</option>
+                <option value="teal">Teal Highlight</option>
+              </select>
+            </div>
+            <div>
+              <label>Banner Message Copy</label>
+              <input type="text" id="gmsgText" placeholder="ORDER PPV ON CH 55..." maxlength="120" required />
+            </div>
+          </div>
+          <div style="margin-top: 8px; text-align: right;">
+            <button type="submit">+ ADD IN-GRID MESSAGE BANNER</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Row 3: Rolling Guide Channels & External XMLTV EPG -->
+    <div class="box" style="margin-bottom: 18px;">
+      <div class="box-title">
+        <span>[ ROLLING TV GUIDE CHANNELS &amp; EXTERNAL XMLTV EPG SOURCE ]</span>
+        <span id="chanCountBadge">0 CHANNELS</span>
+      </div>
+
+      <div class="form-row" style="margin-top: 0; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #2b395e;">
+        <div>
+          <label>External XMLTV EPG URL (Optional — Dispatcharr / Jellyfin / XMLTV)</label>
+          <input type="url" id="epgXmltvUrl" placeholder="http://dispatcharr:8080/epg.xml (leave blank to use custom lineup below)" />
+        </div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <label class="check-label" style="margin:0;">
+            <input type="checkbox" id="chkUseCustomChannels" checked />
+            Include Custom Channels Lineup Below
+          </label>
+        </div>
+        <div>
+          <button onclick="saveEpgConfig()">SAVE EPG SOURCE</button>
+        </div>
+      </div>
+
+      <div id="channelsList" class="item-list" style="max-height: 260px;"></div>
+
+      <form onsubmit="handleAddChannel(event)" style="margin-top: 12px; border-top: 1px solid #2b395e; padding-top: 10px;">
+        <label style="color: var(--border-bright); font-weight: bold;">+ Add Custom Channel Row to Rolling Guide</label>
+        <div class="form-grid-3">
+          <div>
+            <label>Channel Number</label>
+            <input type="text" id="chNumber" placeholder="e.g. 55" maxlength="5" required />
+          </div>
+          <div>
+            <label>Call Letters</label>
+            <input type="text" id="chCallsign" placeholder="e.g. HOT CH" maxlength="8" required />
+          </div>
+          <div>
+            <label>3D Beveled Row Color</label>
+            <select id="chColor">
+              <option value="sky_blue">Sky-Blue (55 HOT CH style)</option>
+              <option value="crimson">Crimson-Red (56 HBO2 Movie style)</option>
+              <option value="navy">Slate-Navy (Standard Cable)</option>
+              <option value="teal">Teal</option>
+            </select>
+          </div>
+          <div>
+            <label>Slot 1 Program Title</label>
+            <input type="text" id="chProg1Title" placeholder='"Jackie Chan&#39;s First Strike"' required />
+          </div>
+          <div>
+            <label>Slot 1 Rating &amp; Year</label>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="chProg1Rating" placeholder="PG-13" maxlength="8" />
+              <input type="text" id="chProg1Year" placeholder="1996" maxlength="4" />
+            </div>
+          </div>
+          <div>
+            <label>Slot 1 Actor / Description</label>
+            <input type="text" id="chProg1Desc" placeholder="Randy Quaid." maxlength="40" />
+          </div>
+          <div>
+            <label>Slot 2 Program Title</label>
+            <input type="text" id="chProg2Title" placeholder='"Star Trek: First Contact"' required />
+          </div>
+          <div>
+            <label>Slot 2 Rating &amp; Year</label>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="chProg2Rating" placeholder="PG-13" maxlength="8" />
+              <input type="text" id="chProg2Year" placeholder="1996" maxlength="4" />
+            </div>
+          </div>
+          <div style="display:flex; align-items:end; justify-content:space-between; gap:8px;">
+            <label class="check-label" style="margin:0;">
+              <input type="checkbox" id="chProg1Early" checked />
+              Show &lt;&lt; Left Chevron
+            </label>
+            <button type="submit">+ ADD CHANNEL</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Row 4: Radio Station Presets & Optional RSS Feeds -->
+    <div class="grid-admin">
+      <!-- Radio Presets -->
+      <div class="box">
+        <div class="box-title">
+          <span>[ RADIO STATION PRESETS &amp; BACKGROUND AUDIO ]</span>
+          <span id="activeAudioBadge">MODE: STREAM</span>
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label>Audio Output Mode</label>
+          <div class="controls-row" style="margin-top: 4px;">
+            <button id="modeBtnStream" onclick="setAudioMode('stream')">LIVE RADIO STREAM</button>
+            <button id="modeBtnHum" onclick="setAudioMode('hum')">60Hz CRT HUM</button>
+            <button id="modeBtnSilent" onclick="setAudioMode('silent')">SILENT / MUTE</button>
+          </div>
+        </div>
+        <div id="radioPresetsList" class="item-list" style="max-height: 180px;"></div>
+        <form onsubmit="handleAddRadioPreset(event)" style="margin-top: 12px; border-top: 1px solid #2b395e; padding-top: 10px;">
+          <div class="form-row">
+            <div>
+              <label>Station Name</label>
+              <input type="text" id="newRadioName" placeholder="e.g. CKUL-FM 96.5" maxlength="50" required />
+            </div>
+            <div>
+              <label>Stream URL (MP3 / AAC / Icecast)</label>
+              <input type="url" id="newRadioUrl" placeholder="https://..." required />
+            </div>
+            <div>
+              <button type="submit">+ SAVE PRESET</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Optional RSS Feeds & Scroll/CRT Display Settings -->
+      <div class="box">
+        <div class="box-title">
+          <span>[ SCROLL SPEED, CRT EFFECTS &amp; OPTIONAL RSS FEEDS ]</span>
+          <button onclick="saveDisplaySettings()">SAVE DISPLAY SETTINGS</button>
+        </div>
+        <div class="display-grid">
+          <div>
+            <label>Guide Ch #</label>
+            <input type="text" id="dispChNo" placeholder="03" maxlength="6" />
+          </div>
+          <div>
+            <label>Guide Name</label>
+            <input type="text" id="dispChName" placeholder="PREVUE GUIDE" maxlength="24" />
+          </div>
+          <div>
+            <label>Scroll Speed (px/s)</label>
+            <input type="number" id="dispScrollSpeed" min="10" max="120" step="2" />
+          </div>
+          <div>
+            <label>Promo Hold (Sec)</label>
+            <input type="number" id="dispPromoDur" min="4" max="60" step="1" />
+          </div>
+        </div>
+
+        <div class="checks-row">
+          <label class="check-label">
+            <input type="checkbox" id="chkShowGridMsgs" />
+            Show In-Grid Message Banners
+          </label>
+          <label class="check-label">
+            <input type="checkbox" id="chkIncludeRss" />
+            Include RSS Headlines in Top-Left Box
+          </label>
+          <label class="check-label">
+            <input type="checkbox" id="chkScanlines" />
+            CRT Scanlines
+          </label>
+          <label class="check-label">
+            <input type="checkbox" id="chkNoise" />
+            Analog RF Grain
+          </label>
+          <label class="check-label">
+            <input type="checkbox" id="chkVignette" />
+            CRT Vignette
+          </label>
+        </div>
+
+        <div style="margin-top: 14px; border-top: 1px solid #2b395e; padding-top: 10px;">
+          <label>Optional RSS Feeds for Top-Left Rotation (Max {{ max_feeds }})</label>
+          <div id="feedsList" class="item-list" style="max-height: 110px; margin-top: 6px;"></div>
+          <form onsubmit="handleAddFeed(event)" style="margin-top: 8px;">
+            <div class="form-row">
+              <div>
+                <input type="text" id="newFeedName" placeholder="Feed Label (e.g. CBC)" maxlength="40" required />
+              </div>
+              <div>
+                <input type="url" id="newFeedUrl" placeholder="https://.../rss.xml" required />
+              </div>
+              <div>
+                <button type="submit" id="btnAddFeed">+ ADD RSS</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastBanner">SAVED</div>
+
+  <script>
+    const MAX_FEEDS = {{ max_feeds }};
+    let hlsInstance = null;
+    let snapshotTimer = null;
+    let formDirty = false;
+    let currentAudioState = { audio_mode: 'stream', active_radio_id: null };
+
+    const videoEl = document.getElementById('hlsVideo');
+    const snapEl = document.getElementById('snapshotPreview');
+    const badgeEl = document.getElementById('streamStateBadge');
+
+    ['dispChNo', 'dispChName', 'dispScrollSpeed', 'dispPromoDur',
+     'chkShowGridMsgs', 'chkIncludeRss', 'chkScanlines', 'chkNoise', 'chkVignette',
+     'epgXmltvUrl', 'chkUseCustomChannels'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('change', () => { formDirty = true; });
+        el.addEventListener('input', () => { formDirty = true; });
+      }
+    });
+
+    function showToast(msg) {
+      const t = document.getElementById('toastBanner');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2400);
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt);
+      showToast('COPIED TO CLIPBOARD');
+    }
+
+    function startHlsPlayer() {
+      if (snapshotTimer) {
+        clearInterval(snapshotTimer);
+        snapshotTimer = null;
+      }
+      document.getElementById('btnModeHls').classList.add('active-btn');
+      document.getElementById('btnModeSnap').classList.remove('active-btn');
+      snapEl.style.display = 'none';
+      videoEl.style.display = 'block';
+
+      const src = '/hls/stream.m3u8?t=' + Date.now();
+      if (Hls.isSupported()) {
+        if (hlsInstance) hlsInstance.destroy();
+        hlsInstance = new Hls({ liveSyncDurationCount: 3, enableWorker: true });
+        hlsInstance.loadSource(src);
+        hlsInstance.attachMedia(videoEl);
+        hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+          badgeEl.textContent = 'ON AIR (HLS)';
+          videoEl.play().catch(() => {});
+        });
+        hlsInstance.on(Hls.Events.ERROR, (event, data) => {
+          if (data.fatal) {
+            badgeEl.textContent = 'BUFFERING HLS...';
+            setTimeout(startHlsPlayer, 2200);
+          }
+        });
+      } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
+        videoEl.src = src;
+        videoEl.addEventListener('loadedmetadata', () => {
+          badgeEl.textContent = 'ON AIR (NATIVE HLS)';
+          videoEl.play().catch(() => {});
+        });
+      }
+    }
+
+    function toggleSnapshotMode() {
+      if (hlsInstance) {
+        hlsInstance.destroy();
+        hlsInstance = null;
+      }
+      document.getElementById('btnModeSnap').classList.add('active-btn');
+      document.getElementById('btnModeHls').classList.remove('active-btn');
+      videoEl.pause();
+      videoEl.style.display = 'none';
+      snapEl.style.display = 'block';
+      badgeEl.textContent = 'LIVE FRAME MONITOR';
+      snapEl.src = '/preview.png?t=' + Date.now();
+      if (snapshotTimer) clearInterval(snapshotTimer);
+      snapshotTimer = setInterval(() => {
+        snapEl.src = '/preview.png?t=' + Date.now();
+      }, 1000);
+    }
+
+    function renderMessages(msgs) {
+      const el = document.getElementById('messagesList');
+      document.getElementById('msgCountBadge').textContent = `${msgs.length} CARDS`;
+      if (!msgs.length) {
+        el.innerHTML = `<div class="list-card"><div class="list-info">No Top-Left messages configured.</div></div>`;
+        return;
+      }
+      el.innerHTML = msgs.map(m => `
+        <div class="list-card ${m.enabled ? 'active-card' : ''}">
+          <div class="list-info">
+            <div class="list-title">
+              <input type="checkbox" ${m.enabled ? 'checked' : ''} onchange="toggleMessage('${escapeHtml(m.id)}', this.checked)" />
+              <span>${escapeHtml(m.network)} — <strong style="color:#f2dc42;">${escapeHtml(m.title)}</strong></span>
+              ${m.rating ? `<span class="pill">${escapeHtml(m.rating)}</span>` : ''}
+            </div>
+            <div class="list-sub">${escapeHtml(m.day_time)} | ${escapeHtml(m.channel_info)}</div>
+          </div>
+          <button onclick="deleteMessage('${escapeHtml(m.id)}')">DELETE</button>
+        </div>
+      `).join('');
+    }
+
+    function renderSlides(slides) {
+      const el = document.getElementById('slidesList');
+      document.getElementById('slideCountBadge').textContent = `${slides.length} SLIDES`;
+      el.innerHTML = slides.map(s => `
+        <div class="list-card ${s.enabled ? 'active-card' : ''}">
+          <div class="list-info">
+            <div class="list-title">
+              <input type="checkbox" ${s.enabled ? 'checked' : ''} onchange="toggleSlide('${escapeHtml(s.id)}', this.checked)" />
+              <span style="color:#f2bc34;">${escapeHtml(s.title)}</span>
+              <span>/ ${escapeHtml(s.subtitle)}</span>
+              <span class="pill pill-navy">${escapeHtml(s.theme)}</span>
+            </div>
+            ${s.image_url ? `<div class="list-sub">${escapeHtml(s.image_url)}</div>` : ''}
+          </div>
+          <button onclick="deleteSlide('${escapeHtml(s.id)}')">DELETE</button>
+        </div>
+      `).join('');
+    }
+
+    function renderGridMessages(gmsgs) {
+      const el = document.getElementById('gridMessagesList');
+      el.innerHTML = gmsgs.map(g => `
+        <div class="list-card ${g.enabled ? 'active-card' : ''}">
+          <div class="list-info">
+            <div class="list-title">
+              <input type="checkbox" ${g.enabled ? 'checked' : ''} onchange="toggleGridMessage('${escapeHtml(g.id)}', this.checked)" />
+              <span class="pill">${escapeHtml(g.label)}</span>
+              <span>${escapeHtml(g.text)}</span>
+            </div>
+          </div>
+          <button onclick="deleteGridMessage('${escapeHtml(g.id)}')">DELETE</button>
+        </div>
+      `).join('');
+    }
+
+    function renderChannels(channels) {
+      const el = document.getElementById('channelsList');
+      document.getElementById('chanCountBadge').textContent = `${channels.length} CUSTOM CHANNELS`;
+      el.innerHTML = channels.map(c => {
+        const pSummary = (c.programs || []).map(p => `${p.title}${p.rating ? ' ['+p.rating+']' : ''}`).join('  |  ');
+        const pillClass = c.color_Style === 'crimson' ? 'pill-crimson' : (c.color_Style === 'sky_blue' ? 'pill-blue' : 'pill-navy');
+        return `
+          <div class="list-card ${c.enabled ? 'active-card' : ''}">
+            <div class="list-info">
+              <div class="list-title">
+                <input type="checkbox" ${c.enabled ? 'checked' : ''} onchange="toggleChannel('${escapeHtml(c.id)}', this.checked)" />
+                <span class="pill">${escapeHtml(c.number)} ${escapeHtml(c.callsign)}</span>
+                <span class="pill ${pillClass}">${escapeHtml(c.color_Style)}</span>
+                <span>${escapeHtml(pSummary)}</span>
+              </div>
+            </div>
+            <button onclick="deleteChannel('${escapeHtml(c.id)}')">DELETE</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderRadioPresets(presets, activeAudio) {
+      currentAudioState = activeAudio || { audio_mode: 'stream', active_radio_id: null };
+      const mode = currentAudioState.audio_mode;
+      const activeId = currentAudioState.active_radio_id;
+
+      document.getElementById('modeBtnStream').classList.toggle('active-btn', mode === 'stream');
+      document.getElementById('modeBtnHum').classList.toggle('active-btn', mode === 'hum');
+      document.getElementById('modeBtnSilent').classList.toggle('active-btn', mode === 'silent');
+
+      document.getElementById('audioStatusHeader').textContent = mode === 'stream'
+        ? `ON AIR RADIO: ${currentAudioState.active_radio_name || 'NONE'}`
+        : `AUDIO MODE: ${mode.toUpperCase()}`;
+      document.getElementById('activeAudioBadge').textContent = `MODE: ${mode.toUpperCase()}`;
+
+      const el = document.getElementById('radioPresetsList');
+      if (!presets || !presets.length) {
+        el.innerHTML = `<div class="list-card"><div class="list-info">No radio station presets saved.</div></div>`;
+        return;
+      }
+      el.innerHTML = presets.map(p => {
+        const isLive = (p.id === activeId) && mode === 'stream';
+        return `
+          <div class="list-card ${isLive ? 'active-card' : ''}">
+            <div class="list-info">
+              <div class="list-title">
+                <span>${escapeHtml(p.name)}</span>
+                ${isLive ? '<span class="pill">ON AIR</span>' : ''}
+              </div>
+              <div class="list-sub">${escapeHtml(p.url)}</div>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button class="${isLive ? 'active-btn' : ''}" onclick="selectRadioPreset('${escapeHtml(p.id)}')">
+                ${isLive ? 'TUNED IN' : 'TUNE IN'}
+              </button>
+              <button onclick="deleteRadioPreset('${escapeHtml(p.id)}')">DELETE</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderFeeds(feeds) {
+      const el = document.getElementById('feedsList');
+      el.innerHTML = (feeds || []).map(f => `
+        <div class="list-card ${f.enabled ? 'active-card' : ''}">
+          <div class="list-info">
+            <div class="list-title">
+              <input type="checkbox" ${f.enabled ? 'checked' : ''} onchange="toggleFeed('${escapeHtml(f.id)}', this.checked)" />
+              <span>${escapeHtml(f.name)}</span>
+            </div>
+            <div class="list-sub">${escapeHtml(f.url)}</div>
+          </div>
+          <button onclick="deleteFeed('${escapeHtml(f.id)}')">DELETE</button>
+        </div>
+      `).join('');
+    }
+
+    async function fetchPortalState() {
+      try {
+        const res = await fetch('/api/status');
+        const data = await res.json();
+        const s = data.settings || {};
+
+        document.getElementById('statRows').textContent = `${data.epg_status.total_grid_rows} GRID ROWS`;
+        renderMessages(s.custom_messages || []);
+        renderSlides(s.right_deck_slides || []);
+        renderGridMessages(s.grid_messages || []);
+        renderChannels(s.custom_channels || []);
+        renderRadioPresets(s.radio_presets || [], data.active_audio);
+        renderFeeds(s.rss_feeds || []);
+
+        if (!formDirty) {
+          const disp = s.display || {};
+          document.getElementById('dispChNo').value = disp.channel_number || '03';
+          document.getElementById('dispChName').value = disp.channel_name || 'PREVUE GUIDE';
+          document.getElementById('dispScrollSpeed').value = disp.scroll_speed ?? 38;
+          document.getElementById('dispPromoDur').value = disp.promo_duration ?? 10;
+          document.getElementById('chkShowGridMsgs').checked = !!disp.show_grid_messages;
+          document.getElementById('chkIncludeRss').checked = !!disp.include_rss_in_topleft;
+          document.getElementById('chkScanlines').checked = !!disp.scanlines;
+          document.getElementById('chkNoise').checked = !!disp.crt_noise;
+          document.getElementById('chkVignette').checked = !!disp.crt_vignette;
+
+          const epg = s.epg || {};
+          document.getElementById('epgXmltvUrl').value = epg.xmltv_url || '';
+          document.getElementById('chkUseCustomChannels').checked = epg.use_custom_channels !== false;
+        }
+      } catch (e) {}
+    }
+
+    async function handleAddMessage(e) {
+      e.preventDefault();
+      const payload = {
+        network: document.getElementById('msgNetwork').value,
+        title: document.getElementById('msgTitle').value,
+        rating: document.getElementById('msgRating').value,
+        day_time: document.getElementById('msgDayTime').value,
+        channel_info: document.getElementById('msgChannelInfo').value,
+        enabled: true
+      };
+      await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      ['msgNetwork', 'msgTitle', 'msgRating', 'msgDayTime', 'msgChannelInfo'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      showToast('TOP-LEFT PROMO MESSAGE ADDED');
+      await fetchPortalState();
+    }
+
+    async function toggleMessage(id, enabled) {
+      await fetch(`/api/messages/${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled })
+      });
+      await fetchPortalState();
+    }
+
+    async function deleteMessage(id) {
+      await fetch(`/api/messages/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      showToast('MESSAGE REMOVED');
+      await fetchPortalState();
+    }
+
+    async function handleAddSlide(e) {
+      e.preventDefault();
+      const payload = {
+        title: document.getElementById('slideTitle').value,
+        subtitle: document.getElementById('slideSubtitle').value,
+        theme: document.getElementById('slideTheme').value,
+        image_url: document.getElementById('slideImageUrl').value,
+        enabled: true
+      };
+      await fetch('/api/slides', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      ['slideTitle', 'slideSubtitle', 'slideImageUrl'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      showToast('TOP-RIGHT SLIDE ADDED');
+      await fetchPortalState();
+    }
+
+    async function toggleSlide(id, enabled) {
+      await fetch(`/api/slides/${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled })
+      });
+      await fetchPortalState();
+    }
+
+    async function deleteSlide(id) {
+      await fetch(`/api/slides/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      showToast('SLIDE REMOVED');
+      await fetchPortalState();
+    }
+
+    async function handleAddGridMessage(e) {
+      e.preventDefault();
+      const payload = {
+        label: document.getElementById('gmsgLabel').value,
+        color_style: document.getElementById('gmsgColor').value,
+        text: document.getElementById('gmsgText').value,
+        enabled: true
+      };
+      await fetch('/api/grid-messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      document.getElementById('gmsgText').value = '';
+      showToast('IN-GRID ROLLING BANNER ADDED');
+      await fetchPortalState();
+    }
+
+    async function toggleGridMessage(id, enabled) {
+      await fetch(`/api/grid-messages/${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled })
+      });
+      await fetchPortalState();
+    }
+
+    async function deleteGridMessage(id) {
+      await fetch(`/api/grid-messages/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      showToast('IN-GRID BANNER REMOVED');
+      await fetchPortalState();
+    }
+
+    async function saveEpgConfig() {
+      const payload = {
+        xmltv_url: document.getElementById('epgXmltvUrl').value,
+        use_custom_channels: document.getElementById('chkUseCustomChannels').checked
+      };
+      await fetch('/api/epg-config', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      formDirty = false;
+      showToast('EPG SOURCE UPDATED & REFRESHED');
+      await fetchPortalState();
+    }
+
+    async function handleAddChannel(e) {
+      e.preventDefault();
+      const payload = {
+        number: document.getElementById('chNumber').value,
+        callsign: document.getElementById('chCallsign').value,
+        color_Style: document.getElementById('chColor').value,
+        prog1_title: document.getElementById('chProg1Title').value,
+        prog1_rating: document.getElementById('chProg1Rating').value,
+        prog1_year: document.getElementById('chProg1Year').value,
+        prog1_desc: document.getElementById('chProg1Desc').value,
+        prog1_started_early: document.getElementById('chProg1Early').checked,
+        prog2_title: document.getElementById('chProg2Title').value,
+        prog2_rating: document.getElementById('chProg2Rating').value,
+        prog2_year: document.getElementById('chProg2Year').value,
+        enabled: true
+      };
+      await fetch('/api/channels', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      ['chNumber', 'chCallsign', 'chProg1Title', 'chProg1Rating', 'chProg1Year', 'chProg1Desc',
+       'chProg2Title', 'chProg2Rating', 'chProg2Year'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      showToast('CHANNEL ADDED TO ROLLING GUIDE');
+      await fetchPortalState();
+    }
+
+    async function toggleChannel(id, enabled) {
+      await fetch(`/api/channels/${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled })
+      });
+      await fetchPortalState();
+    }
+
+    async function deleteChannel(id) {
+      await fetch(`/api/channels/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      showToast('CHANNEL REMOVED');
+      await fetchPortalState();
+    }
+
+    async function handleAddRadioPreset(e) {
+      e.preventDefault();
+      const name = document.getElementById('newRadioName').value.trim();
+      const url = document.getElementById('newRadioUrl').value.trim();
+      await fetch('/api/radio/presets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, url, activate: true })
+      });
+      document.getElementById('newRadioName').value = '';
+      document.getElementById('newRadioUrl').value = '';
+      showToast('RADIO PRESET SAVED & TUNED IN');
+      await fetchPortalState();
+      setTimeout(startHlsPlayer, 2000);
+    }
+
+    async function selectRadioPreset(presetId) {
+      await fetch('/api/radio/select', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ audio_mode: 'stream', active_radio_id: presetId })
+      });
+      showToast('TUNING HLS AUDIO TO SELECTED STATION...');
+      await fetchPortalState();
+      setTimeout(startHlsPlayer, 2000);
+    }
+
+    async function setAudioMode(mode) {
+      await fetch('/api/radio/select', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ audio_mode: mode, active_radio_id: currentAudioState.active_radio_id })
+      });
+      showToast(`AUDIO MODE SET TO ${mode.toUpperCase()}`);
+      await fetchPortalState();
+      setTimeout(startHlsPlayer, 2000);
+    }
+
+    async function deleteRadioPreset(presetId) {
+      await fetch(`/api/radio/presets/${encodeURIComponent(presetId)}`, { method: 'DELETE' });
+      showToast('RADIO PRESET DELETED');
+      await fetchPortalState();
+    }
+
+    async function handleAddFeed(e) {
+      e.preventDefault();
+      const name = document.getElementById('newFeedName').value.trim();
+      const url = document.getElementById('newFeedUrl').value.trim();
+      const res = await fetch('/api/feeds', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, url, enabled: true })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.detail || 'Failed to add RSS feed');
+        return;
+      }
+      document.getElementById('newFeedName').value = '';
+      document.getElementById('newFeedUrl').value = '';
+      showToast('RSS FEED ADDED');
+      await fetchPortalState();
+    }
+
+    async function toggleFeed(id, enabled) {
+      await fetch(`/api/feeds/${encodeURIComponent(id)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled })
+      });
+      await fetchPortalState();
+    }
+
+    async function deleteFeed(id) {
+      await fetch(`/api/feeds/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      await fetchPortalState();
+    }
+
+    async function saveDisplaySettings() {
+      const payload = {
+        channel_number: document.getElementById('dispChNo').value,
+        channel_name: document.getElementById('dispChName').value,
+        scroll_speed: parseFloat(document.getElementById('dispScrollSpeed').value || '38'),
+        promo_duration: parseFloat(document.getElementById('dispPromoDur').value || '10'),
+        show_grid_messages: document.getElementById('chkShowGridMsgs').checked,
+        include_rss_in_topleft: document.getElementById('chkIncludeRss').checked,
+        scanlines: document.getElementById('chkScanlines').checked,
+        crt_noise: document.getElementById('chkNoise').checked,
+        crt_vignette: document.getElementById('chkVignette').checked
+      };
+      await fetch('/api/display', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      formDirty = false;
+      showToast('DISPLAY & SCROLL SETTINGS SAVED');
+      await fetchPortalState();
+    }
+
+    async function triggerRefresh() {
+      showToast('REFRESHING EPG & FEEDS...');
+      await fetch('/api/refresh', { method: 'POST' });
+      await fetchPortalState();
+      showToast('SYNCHRONIZED');
+    }
+
+    fetchPortalState();
+    startHlsPlayer();
+    setInterval(fetchPortalState, 6000);
+  </script>
+</body>
+</html>

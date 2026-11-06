@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760">
+  <rect width="1280" height="760" fill="#0a0d18"/>
+  <!-- Top Header Bar -->
+  <rect x="24" y="20" width="1232" height="46" fill="#233778" stroke="#f2dc42" stroke-width="2"/>
+  <rect x="38" y="30" width="76" height="26" fill="#f2dc42"/>
+  <text x="76" y="48" font-family="Courier New, monospace" font-weight="bold" font-size="16" fill="#0b1024" text-anchor="middle">CH 03</text>
+  <text x="128" y="49" font-family="Courier New, monospace" font-weight="bold" font-size="17" fill="#ffffff">PREVUE GUIDE // ROLLING TV GUIDE ADMIN PORTAL</text>
+  <text x="1240" y="48" font-family="Courier New, monospace" font-weight="bold" font-size="15" fill="#f2dc42" text-anchor="end">ON AIR RADIO: CKUL-FM (Default Stream)</text>
+
+  <!-- Row 1 Left: Live Prevue Guide Monitor -->
+  <rect x="24" y="82" width="700" height="340" fill="#12182b" stroke="#4a5d8c" stroke-width="2"/>
+  <rect x="24" y="82" width="700" height="32" fill="#1f2c52" stroke="#4a5d8c" stroke-width="1"/>
+  <text x="38" y="103" font-family="Courier New, monospace" font-weight="bold" font-size="15" fill="#f2dc42">[ LIVE PREVUE GUIDE BROADCAST MONITOR ]</text>
+  <text x="710" y="103" font-family="Courier New, monospace" font-weight="bold" font-size="14" fill="#f2dc42" text-anchor="end">ON AIR (HLS)</text>
+
+  <!-- Mini Prevue Guide Screen Preview inside Monitor -->
+  <g transform="translate(44, 124)">
+    <rect width="460" height="250" fill="#08124e" stroke="#f2dc42" stroke-width="2"/>
+    <!-- Top Left Quadrant -->
+    <rect x="2" y="2" width="218" height="114" fill="#0d1e82"/>
+    <text x="110" y="26" font-family="Arial, sans-serif" font-weight="bold" font-size="14" fill="#ffffff" text-anchor="middle">Cinemax</text>
+    <text x="110" y="52" font-family="Arial, sans-serif" font-weight="bold" font-size="14" fill="#f6e03c" text-anchor="middle">"Black Sheep" [PG-13]</text>
+    <text x="110" y="78" font-family="Arial, sans-serif" font-weight="bold" font-size="14" fill="#ffffff" text-anchor="middle">Wednesday</text>
+    <text x="110" y="102" font-family="Arial, sans-serif" font-weight="bold" font-size="14" fill="#ffffff" text-anchor="middle">Channel 14</text>
+    <!-- Top Right Quadrant -->
+    <rect x="222" y="2" width="236" height="114" fill="#3a424e"/>
+    <text x="230" y="92" font-family="Arial, sans-serif" font-weight="900" font-size="16" fill="#f4be36">REEL TALK</text>
+    <text x="230" y="108" font-family="Arial, sans-serif" font-weight="bold" font-size="11" fill="#e8ecf4">DAVID SPADE</text>
+    <!-- Timebar -->
+    <rect x="2" y="116" width="456" height="24" fill="#3c548e" stroke="#84a2de" stroke-width="1"/>
+    <text x="40" y="133" font-family="Arial, sans-serif" font-weight="bold" font-size="13" fill="#ffffff" text-anchor="middle">10:45:11</text>
+    <text x="145" y="133" font-family="Arial, sans-serif" font-weight="bold" font-size="13" fill="#f6e03c" text-anchor="middle">10:30 AM</text>
+    <text x="270" y="133" font-family="Arial, sans-serif" font-weight="bold" font-size="13" fill="#f6e03c" text-anchor="middle">11:00 AM</text>
+    <text x="395" y="133" font-family="Arial, sans-serif" font-weight="bold" font-size="13" fill="#f6e03c" text-anchor="middle">11:30 AM</text>
+    <!-- Row 55 HOT CH -->
+    <rect x="2" y="141" width="76" height="36" fill="#101848"/>
+    <text x="40" y="156" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#f6e03c" text-anchor="middle">55</text>
+    <text x="40" y="171" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#f6e03c" text-anchor="middle">HOT CH</text>
+    <rect x="79" y="141" width="250" height="36" fill="#287cc8" stroke="#7ac4fc" stroke-width="1"/>
+    <text x="88" y="157" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#ffffff">&lt; "Jackie Chan's First Strike" [PG-13]</text>
+    <rect x="330" y="141" width="128" height="36" fill="#287cc8" stroke="#7ac4fc" stroke-width="1"/>
+    <text x="338" y="157" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#ffffff">"Star Trek: &gt;&gt;</text>
+    <!-- Row 56 HBO2 -->
+    <rect x="2" y="178" width="76" height="36" fill="#101848"/>
+    <text x="40" y="193" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#f6e03c" text-anchor="middle">56</text>
+    <text x="40" y="208" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#f6e03c" text-anchor="middle">HBO2</text>
+    <rect x="79" y="178" width="250" height="36" fill="#68202c" stroke="#b05866" stroke-width="1"/>
+    <text x="88" y="194" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#ffffff">&lt; "Legends of the North" [PG] (1995)</text>
+    <rect x="330" y="178" width="128" height="36" fill="#68202c" stroke="#b05866" stroke-width="1"/>
+    <text x="338" y="194" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#ffffff">(11:45) "A &gt;&gt;</text>
+    <!-- Row 57 SHOW -->
+    <rect x="2" y="215" width="76" height="33" fill="#101848"/>
+    <text x="40" y="232" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#f6e03c" text-anchor="middle">57 SHOW</text>
+    <rect x="79" y="215" width="250" height="33" fill="#68202c" stroke="#b05866" stroke-width="1"/>
+    <text x="88" y="232" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#ffffff">&lt; "Big Bully" [PG] (1996) Rick</text>
+    <rect x="330" y="215" width="128" height="33" fill="#68202c" stroke="#b05866" stroke-width="1"/>
+    <text x="338" y="232" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#ffffff">Family &gt;&gt;</text>
+  </g>
+
+  <!-- Row 1 Right: Stream Endpoints -->
+  <rect x="742" y="82" width="514" height="340" fill="#12182b" stroke="#4a5d8c" stroke-width="2"/>
+  <rect x="742" y="82" width="514" height="32" fill="#1f2c52" stroke="#4a5d8c" stroke-width="1"/>
+  <text x="756" y="103" font-family="Courier New, monospace" font-weight="bold" font-size="15" fill="#f2dc42">[ STREAM ENDPOINTS &amp; IPTV LINKS ]</text>
+  <g font-family="Courier New, monospace" font-size="13" fill="#eef2ff">
+    <rect x="758" y="128" width="482" height="58" fill="#0d1222" stroke="#32426b"/>
+    <text x="770" y="148" fill="#98a6c8">HLS STREAM (.M3U8)</text>
+    <text x="770" y="170">http://localhost:8085/hls/stream.m3u8</text>
+    <rect x="758" y="198" width="482" height="58" fill="#0d1222" stroke="#32426b"/>
+    <text x="770" y="218" fill="#98a6c8">IPTV / DISPATCHARR M3U PLAYLIST</text>
+    <text x="770" y="240">http://localhost:8085/playlist.m3u</text>
+    <rect x="758" y="268" width="482" height="58" fill="#0d1222" stroke="#32426b"/>
+    <text x="770" y="288" fill="#98a6c8">XMLTV EPG GUIDE</text>
+    <text x="770" y="310">http://localhost:8085/epg.xml</text>
+  </g>
+
+  <!-- Row 2 Left: Top-Left Custom Promo Messages -->
+  <rect x="24" y="440" width="606" height="296" fill="#12182b" stroke="#4a5d8c" stroke-width="2"/>
+  <rect x="24" y="440" width="606" height="32" fill="#1f2c52" stroke="#4a5d8c" stroke-width="1"/>
+  <text x="38" y="461" font-family="Courier New, monospace" font-weight="bold" font-size="15" fill="#f2dc42">[ TOP-LEFT QUADRANT: CUSTOM PROMO &amp; BULLETIN MESSAGES ]</text>
+  <g font-family="Courier New, monospace" font-size="13" fill="#eef2ff">
+    <rect x="40" y="486" width="574" height="54" fill="#17213e" stroke="#f2dc42"/>
+    <text x="54" y="508" font-weight="bold">Cinemax — "Black Sheep"  [PG-13]</text>
+    <text x="54" y="528" fill="#98a6c8">Wednesday | Channel 14</text>
+    <rect x="40" y="550" width="574" height="54" fill="#17213e" stroke="#f2dc42"/>
+    <text x="54" y="572" font-weight="bold">Hot Choice PPV — "Jackie Chan's First Strike"  [PG-13]</text>
+    <text x="54" y="592" fill="#98a6c8">Now Playing | Channel 55</text>
+    <rect x="40" y="614" width="574" height="54" fill="#17213e" stroke="#f2dc42"/>
+    <text x="54" y="636" font-weight="bold">Cable System Notice — Community Bulletin Board</text>
+    <text x="54" y="656" fill="#98a6c8">Local News &amp; Weather | Tune to Channel 10</text>
+  </g>
+
+  <!-- Row 2 Right: Rolling Channels, In-Grid Banners & Radio Presets -->
+  <rect x="648" y="440" width="608" height="296" fill="#12182b" stroke="#4a5d8c" stroke-width="2"/>
+  <rect x="648" y="440" width="608" height="32" fill="#1f2c52" stroke="#4a5d8c" stroke-width="1"/>
+  <text x="662" y="461" font-family="Courier New, monospace" font-weight="bold" font-size="15" fill="#f2dc42">[ TOP-RIGHT SLIDES, IN-GRID BANNERS &amp; CHANNELS ]</text>
+  <g font-family="Courier New, monospace" font-size="13" fill="#eef2ff">
+    <rect x="664" y="486" width="576" height="46" fill="#17213e" stroke="#f2dc42"/>
+    <text x="678" y="514" font-weight="bold" fill="#f4be36">REEL TALK / DAVID SPADE  [reel_talk]</text>
+    <rect x="664" y="542" width="576" height="46" fill="#17213e" stroke="#f2dc42"/>
+    <text x="678" y="570" font-weight="bold">[55 HOT CH] "Jackie Chan's First Strike" | "Star Trek: First Contact"</text>
+    <rect x="664" y="598" width="576" height="46" fill="#17213e" stroke="#f2dc42"/>
+    <text x="678" y="626" font-weight="bold">[56 HBO2] "Legends of the North" [PG] | (11:45) "A River Runs"</text>
+    <rect x="664" y="654" width="576" height="46" fill="#17213e" stroke="#f2dc42"/>
+    <text x="678" y="682" font-weight="bold">[57 SHOW] "Big Bully" [PG] (1996) | Family Business [R]</text>
+  </g>
+</svg>

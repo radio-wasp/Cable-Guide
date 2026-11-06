@@ -1,0 +1,220 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <!-- Top-Left Cobalt Navy Ribbon Gradient -->
+    <linearGradient id="tlBg" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0%" stop-color="#142894"/>
+      <stop offset="45%" stop-color="#0b1a74"/>
+      <stop offset="100%" stop-color="#07104e"/>
+    </linearGradient>
+    <!-- Top-Right Studio Backdrop -->
+    <linearGradient id="trBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4e5662"/>
+      <stop offset="100%" stop-color="#2c323c"/>
+    </linearGradient>
+    <!-- Timebar 3D Slate-Blue Face -->
+    <linearGradient id="timebarFace" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#48609c"/>
+      <stop offset="100%" stop-color="#2e4276"/>
+    </linearGradient>
+    <!-- Row 55 Sky-Blue 3D Bar -->
+    <linearGradient id="skyBlueBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#348ad8"/>
+      <stop offset="100%" stop-color="#206cb8"/>
+    </linearGradient>
+    <!-- Row 56/57 Crimson-Red 3D Movie Bar -->
+    <linearGradient id="crimsonBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#722432"/>
+      <stop offset="100%" stop-color="#581824"/>
+    </linearGradient>
+    <!-- CRT Scanline Pattern -->
+    <pattern id="scanlines" width="4" height="2" patternUnits="userSpaceOnUse">
+      <rect width="4" height="1" fill="#000000" fill-opacity="0.14"/>
+    </pattern>
+    <!-- Crisp Prevue Drop Shadow -->
+    <filter id="txtShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="3" dy="3" stdDeviation="0.6" flood-color="#050816" flood-opacity="0.95"/>
+    </filter>
+  </defs>
+
+  <!-- 1. TOP-LEFT QUADRANT: Cobalt-Navy Promo / Bulletin Message Box -->
+  <rect x="0" y="0" width="608" height="336" fill="url(#tlBg)"/>
+  <rect x="608" y="0" width="4" height="336" fill="#050814"/>
+
+  <g font-family="Arial, Helvetica, Liberation Sans, sans-serif" font-weight="bold" font-size="37" text-anchor="middle" filter="url(#txtShadow)">
+    <text x="304" y="64" fill="#f0f4ff">Cinemax</text>
+    <text x="262" y="142" fill="#f6e03c">"Black Sheep"</text>
+    <!-- Yellow-bordered PG-13 rating badge -->
+    <rect x="404" y="114" width="68" height="30" fill="#182248" stroke="#f6e03c" stroke-width="2.5"/>
+    <text x="438" y="136" font-size="21" fill="#f6e03c">PG-13</text>
+    <text x="304" y="222" fill="#f0f4ff">Wednesday</text>
+    <text x="304" y="298" fill="#f0f4ff">Channel 14</text>
+  </g>
+
+  <!-- 2. TOP-RIGHT QUADRANT: Quarter-Screen Feature Window ('REEL TALK / DAVID SPADE') -->
+  <rect x="612" y="0" width="668" height="336" fill="url(#trBg)"/>
+  <!-- Soft studio window & interviewee silhouette -->
+  <rect x="630" y="6" width="245" height="158" fill="#d4e0ee" opacity="0.88"/>
+  <ellipse cx="740" cy="190" rx="110" ry="70" fill="#282c34" opacity="0.85"/>
+  <!-- Interviewee shoulders & head silhouette -->
+  <polygon points="790,336 825,205 920,168 1060,168 1175,215 1215,336" fill="#626a7e"/>
+  <polygon points="950,185 1025,185 1012,336 962,336" fill="#363a48"/>
+  <ellipse cx="990" cy="86" rx="74" ry="76" fill="#d8c4b4"/>
+  <path d="M910,75 C910,10 1070,10 1070,75 Z" fill="#a88e6c"/>
+
+  <!-- Lower-Third Gold Overlay ('REEL TALK / DAVID SPADE') -->
+  <rect x="614" y="238" width="280" height="86" rx="8" fill="#463010" opacity="0.55"/>
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="900" filter="url(#txtShadow)">
+    <text x="618" y="276" font-size="44" fill="#f4be36">REEL TALK</text>
+    <text x="622" y="314" font-size="27" fill="#e8ecf4" letter-spacing="1">DAVID SPADE</text>
+  </g>
+
+  <!-- 3. MIDDLE TIME BAR: Clock + Three 30-Minute Time-Slot Headers -->
+  <g>
+    <!-- Clock Cell (0..218) -->
+    <rect x="0" y="336" width="218" height="64" fill="url(#timebarFace)" stroke="#060a18" stroke-width="2"/>
+    <polyline points="3,397 3,339 215,339" fill="none" stroke="#84a2de" stroke-width="3"/>
+    <polyline points="3,397 215,397 215,339" fill="none" stroke="#18244a" stroke-width="3"/>
+
+    <!-- Slot 1 (218..572) -->
+    <rect x="218" y="336" width="354" height="64" fill="url(#timebarFace)" stroke="#060a18" stroke-width="2"/>
+    <polyline points="221,397 221,339 569,339" fill="none" stroke="#84a2de" stroke-width="3"/>
+    <polyline points="221,397 569,397 569,339" fill="none" stroke="#18244a" stroke-width="3"/>
+
+    <!-- Slot 2 (572..926) -->
+    <rect x="572" y="336" width="354" height="64" fill="url(#timebarFace)" stroke="#060a18" stroke-width="2"/>
+    <polyline points="575,397 575,339 923,339" fill="none" stroke="#84a2de" stroke-width="3"/>
+    <polyline points="575,397 923,397 923,339" fill="none" stroke="#18244a" stroke-width="3"/>
+
+    <!-- Slot 3 (926..1280) -->
+    <rect x="926" y="336" width="354" height="64" fill="url(#timebarFace)" stroke="#060a18" stroke-width="2"/>
+    <polyline points="929,397 929,339 1277,339" fill="none" stroke="#84a2de" stroke-width="3"/>
+    <polyline points="929,397 1277,397 1277,339" fill="none" stroke="#18244a" stroke-width="3"/>
+    <rect x="1165" y="385" width="20" height="4" fill="#eef2ff"/>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="36" text-anchor="middle" filter="url(#txtShadow)">
+    <text x="109" y="381" fill="#f2f6ff">10:45:11</text>
+    <text x="395" y="381" fill="#f8e23e">10:30 AM</text>
+    <text x="749" y="381" fill="#f8e23e">11:00 AM</text>
+    <text x="1103" y="381" fill="#f8e23e">11:30 AM</text>
+  </g>
+
+  <!-- 4. BOTTOM ROLLING TV GUIDE GRID (y = 400..720) -->
+  <!-- ROW 1: 55 HOT CH (Sky-Blue 3D Beveled Row, y=400..492) -->
+  <g transform="translate(0, 400)">
+    <rect x="0" y="0" width="218" height="92" fill="#101848" stroke="#060a1c" stroke-width="2"/>
+    <line x1="0" y1="2" x2="216" y2="2" stroke="#364a86" stroke-width="2"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f6e03a" text-anchor="middle" filter="url(#txtShadow)">
+      <text x="109" y="38">55</text>
+      <text x="109" y="78">HOT CH</text>
+    </g>
+
+    <!-- Program 1 (218..926) -->
+    <rect x="218" y="0" width="708" height="92" fill="url(#skyBlueBar)" stroke="#06122a" stroke-width="2"/>
+    <polyline points="221,89 221,3 923,3" fill="none" stroke="#7ac4fc" stroke-width="3"/>
+    <polyline points="221,89 923,89 923,3" fill="none" stroke="#0e366c" stroke-width="3"/>
+    <!-- Left Continuation Chevron (<) -->
+    <polygon points="242,10 249,10 235,46 249,82 242,82 226,46" fill="#f2f6ff" filter="url(#txtShadow)"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f2f6ff" filter="url(#txtShadow)">
+      <text x="256" y="38">"Jackie Chan's First</text>
+      <text x="256" y="78">Strike"</text>
+      <rect x="376" y="54" width="66" height="27" fill="none" stroke="#f2f6ff" stroke-width="2"/>
+      <text x="383" y="75" font-size="21">PG-13</text>
+      <text x="454" y="78">(1996)</text>
+    </g>
+
+    <!-- Program 2 (926..1280) -->
+    <rect x="926" y="0" width="354" height="92" fill="url(#skyBlueBar)" stroke="#06122a" stroke-width="2"/>
+    <polyline points="929,89 929,3 1277,3" fill="none" stroke="#7ac4fc" stroke-width="3"/>
+    <polyline points="929,89 1277,89 1277,3" fill="none" stroke="#0e366c" stroke-width="3"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f2f6ff" filter="url(#txtShadow)">
+      <text x="942" y="38">"Star Trek:</text>
+      <text x="942" y="78">First</text>
+    </g>
+    <!-- Right Continuation Double Chevron (>>) -->
+    <polygon points="1238,10 1245,10 1259,46 1245,82 1238,82 1252,46" fill="#f2f6ff" filter="url(#txtShadow)"/>
+    <polygon points="1249,10 1256,10 1270,46 1256,82 1249,82 1263,46" fill="#f2f6ff" filter="url(#txtShadow)"/>
+  </g>
+
+  <!-- ROW 2: 56 HBO2 (Crimson-Red 3D Movie Row, y=492..584) -->
+  <g transform="translate(0, 492)">
+    <rect x="0" y="0" width="218" height="92" fill="#101848" stroke="#060a1c" stroke-width="2"/>
+    <line x1="0" y1="2" x2="216" y2="2" stroke="#364a86" stroke-width="2"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f6e03a" text-anchor="middle" filter="url(#txtShadow)">
+      <text x="109" y="38">56</text>
+      <text x="109" y="78">HBO2</text>
+    </g>
+
+    <!-- Program 1 (218..926) -->
+    <rect x="218" y="0" width="708" height="92" fill="url(#crimsonBar)" stroke="#120408" stroke-width="2"/>
+    <polyline points="221,89 221,3 923,3" fill="none" stroke="#b05866" stroke-width="3"/>
+    <polyline points="221,89 923,89 923,3" fill="none" stroke="#2e0810" stroke-width="3"/>
+    <polygon points="242,10 249,10 235,46 249,82 242,82 226,46" fill="#f2f6ff" filter="url(#txtShadow)"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f2f6ff" filter="url(#txtShadow)">
+      <text x="256" y="38">"Legends of the North"</text>
+      <rect x="646" y="14" width="44" height="27" fill="none" stroke="#f2f6ff" stroke-width="2"/>
+      <text x="653" y="35" font-size="21">PG</text>
+      <text x="256" y="78">(1995) Randy Quaid.</text>
+    </g>
+
+    <!-- Program 2 (926..1280) -->
+    <rect x="926" y="0" width="354" height="92" fill="url(#crimsonBar)" stroke="#120408" stroke-width="2"/>
+    <polyline points="929,89 929,3 1277,3" fill="none" stroke="#b05866" stroke-width="3"/>
+    <polyline points="929,89 1277,89 1277,3" fill="none" stroke="#2e0810" stroke-width="3"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f2f6ff" filter="url(#txtShadow)">
+      <text x="942" y="38">(11:45) "A</text>
+      <text x="942" y="78">River Runs</text>
+    </g>
+    <polygon points="1238,10 1245,10 1259,46 1245,82 1238,82 1252,46" fill="#f2f6ff" filter="url(#txtShadow)"/>
+    <polygon points="1249,10 1256,10 1270,46 1256,82 1249,82 1263,46" fill="#f2f6ff" filter="url(#txtShadow)"/>
+  </g>
+
+  <!-- ROW 3: 57 SHOW (Crimson-Red 3D Movie Row, y=584..676) -->
+  <g transform="translate(0, 584)">
+    <rect x="0" y="0" width="218" height="92" fill="#101848" stroke="#060a1c" stroke-width="2"/>
+    <line x1="0" y1="2" x2="216" y2="2" stroke="#364a86" stroke-width="2"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f6e03a" text-anchor="middle" filter="url(#txtShadow)">
+      <text x="109" y="38">57</text>
+      <text x="109" y="78">SHOW</text>
+    </g>
+
+    <rect x="218" y="0" width="708" height="92" fill="url(#crimsonBar)" stroke="#120408" stroke-width="2"/>
+    <polyline points="221,89 221,3 923,3" fill="none" stroke="#b05866" stroke-width="3"/>
+    <polyline points="221,89 923,89 923,3" fill="none" stroke="#2e0810" stroke-width="3"/>
+    <polygon points="242,10 249,10 235,46 249,82 242,82 226,46" fill="#f2f6ff" filter="url(#txtShadow)"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f2f6ff" filter="url(#txtShadow)">
+      <text x="256" y="38">"Big Bully"</text>
+      <rect x="448" y="14" width="44" height="27" fill="none" stroke="#f2f6ff" stroke-width="2"/>
+      <text x="455" y="35" font-size="21">PG</text>
+      <text x="504" y="38">(1996) Rick</text>
+      <text x="256" y="78">Moranis.</text>
+    </g>
+
+    <rect x="926" y="0" width="354" height="92" fill="url(#crimsonBar)" stroke="#120408" stroke-width="2"/>
+    <polyline points="929,89 929,3 1277,3" fill="none" stroke="#b05866" stroke-width="3"/>
+    <polyline points="929,89 1277,89 1277,3" fill="none" stroke="#2e0810" stroke-width="3"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f2f6ff" filter="url(#txtShadow)">
+      <text x="942" y="38">Family</text>
+      <text x="942" y="78">Business</text>
+    </g>
+    <polygon points="1238,10 1245,10 1259,46 1245,82 1238,82 1252,46" fill="#f2f6ff" filter="url(#txtShadow)"/>
+    <polygon points="1249,10 1256,10 1270,46 1256,82 1249,82 1263,46" fill="#f2f6ff" filter="url(#txtShadow)"/>
+  </g>
+
+  <!-- ROW 4 (Partially scrolled into view at bottom, y=676..720): 14 MAX -->
+  <g transform="translate(0, 676)">
+    <rect x="0" y="0" width="218" height="92" fill="#101848" stroke="#060a1c" stroke-width="2"/>
+    <line x1="0" y1="2" x2="216" y2="2" stroke="#364a86" stroke-width="2"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f6e03a" text-anchor="middle" filter="url(#txtShadow)">
+      <text x="109" y="38">14</text>
+    </g>
+    <rect x="218" y="0" width="1062" height="92" fill="url(#crimsonBar)" stroke="#120408" stroke-width="2"/>
+    <polyline points="221,89 221,3 1277,3" fill="none" stroke="#b05866" stroke-width="3"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="34" fill="#f2f6ff" filter="url(#txtShadow)">
+      <text x="236" y="38">"Black Sheep" [PG-13] (1996) Chris Farley.</text>
+    </g>
+  </g>
+
+  <!-- Global CRT Scanline Overlay -->
+  <rect x="0" y="0" width="1280" height="720" fill="url(#scanlines)"/>
+</svg>

@@ -1,0 +1,28 @@
+services:
+  cable-guide-hls:
+    build: .
+    image: cable-guide-hls:latest
+    container_name: cable-guide-hls
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8085}:8080"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PORT=8080
+      - DATA_DIR=/app/data
+      - TZ=America/Halifax
+      - CHANNEL_NUMBER=03
+      - CHANNEL_NAME=PREVUE GUIDE
+      - XMLTV_URL=
+      - WIDTH=1280
+      - HEIGHT=720
+      - FPS=24
+      - SCROLL_SPEED=38
+      - PROMO_DURATION=10
+      - SCANLINES=true
+      - CRT_NOISE=true
+      - CRT_VIGNETTE=true
+      - AUDIO_MODE=stream
+      - AUDIO_STREAM_URL=https://chi-master3-entry1.leanstream-hd.com:2113/CKULFM
+      - REFRESH_INTERVAL_MINUTES=15
